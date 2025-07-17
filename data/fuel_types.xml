@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+
+        <record model="travel.vehicle.fuel.types" id="travel.fuel_types_data_diesel">
+            <field name="name">Diesel</field>
+            <field name="color">#FF5733</field>
+            <field name="description">Fuel commonly used in trucks and heavy-duty vehicles.</field>
+        </record>
+
+        <record model="travel.vehicle.fuel.types" id="travel.fuel_types_data_gasoline">
+            <field name="name">Gasoline</field>
+            <field name="color">#00BFFF</field>
+            <field name="description">Fuel commonly used in cars and motorbikes.</field>
+        </record>
+
+        <record model="travel.vehicle.fuel.types" id="travel.fuel_types_data_electric">
+            <field name="name">Electric</field>
+            <field name="color">#32CD32</field>
+            <field name="description">Rechargeable energy source for eco-friendly vehicles.</field>
+        </record>
+
+        <record model="travel.vehicle.fuel.types" id="travel.fuel_types_data_hybrid">
+            <field name="name">Electric</field>
+            <field name="color">#FFD700</field>
+            <field name="description">Combination of gasoline and electric for efficiency.</field>
+        </record>
+
+        <record model="travel.vehicle.fuel.types" id="travel.fuel_types_data_cng">
+            <field name="name">CNG</field>
+            <field name="color">#8A2BE2</field>
+            <field name="description">Cleaner and cost-effective fuel option.</field>
+        </record>
+
+        <record model="travel.vehicle.fuel.types" id="travel.fuel_types_data_LPG">
+            <field name="name">LPG</field>
+            <field name="color">#FF1493</field>
+            <field name="description">Affordable and cleaner-burning fuel.</field>
+        </record>
+
+    </data>
+</odoo>

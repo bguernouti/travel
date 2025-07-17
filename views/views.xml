@@ -1,0 +1,792 @@
+<odoo>
+    <data>
+
+        <!-- Action Travels -->
+        <record model="ir.actions.act_window" id="travel.action_window_travel">
+            <field name="name">Travels</field>
+            <field name="res_model">travel.travel</field>
+            <field name="context">{'default_state': 'draft', 'search_default_running': 1}</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action Passengers -->
+        <record model="ir.actions.act_window" id="travel.action_window_passenger">
+            <field name="name">Travel passengers</field>
+            <field name="res_model">travel.passenger</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action Tickets -->
+        <record model="ir.actions.act_window" id="travel.action_window_tickets">
+            <field name="name">Travel Tickets</field>
+            <field name="res_model">travel.ticket</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action Vehicles -->
+        <record model="ir.actions.act_window" id="travel.action_window_vehicles">
+            <field name="name">Vehicles</field>
+            <field name="res_model">travel.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action Drivers -->
+        <record model="ir.actions.act_window" id="travel.action_window_drivers">
+            <field name="name">Drivers</field>
+            <field name="res_model">travel.vehicle.drivers</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action Flights -->
+        <record model="ir.actions.act_window" id="travel.action_window_flights">
+            <field name="name">Flights</field>
+            <field name="res_model">travel.flight</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action Types -->
+        <record model="ir.actions.act_window" id="travel.action_window_types">
+            <field name="name">Vehicle Types</field>
+            <field name="res_model">travel.vehicle.types</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action Fuel Types -->
+        <record model="ir.actions.act_window" id="travel.action_window_fuel_types">
+            <field name="name">Fuel types</field>
+            <field name="res_model">travel.vehicle.fuel.types</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Action Tags -->
+        <record model="ir.actions.act_window" id="travel.action_window_tags">
+            <field name="name">Vehicle Tags</field>
+            <field name="res_model">travel.vehicle.tags</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Menu root -->
+        <menuitem name="Travel" id="travel.menu_root"/>
+
+        <!-- Menu Home -->
+        <menuitem
+                name="Home"
+                id="travel.menu_home"
+                parent="travel.menu_root"
+                sequence="1"
+        />
+
+        <!-- Menu Travels -->
+        <menuitem
+                name="Travels"
+                id="travel.menu_home_travel"
+                parent="travel.menu_home"
+                action="travel.action_window_travel"
+                sequence="2"
+        />
+
+        <!-- Menu Passengers -->
+        <menuitem
+                name="Passengers"
+                id="travel.menu_home_passenger"
+                parent="travel.menu_home"
+                action="travel.action_window_passenger"
+                sequence="5"
+        />
+
+        <!-- Menu Reporting -->
+        <menuitem
+                name="Reporting"
+                id="travel.menu_reporting"
+                parent="travel.menu_root"
+                sequence="6"
+        />
+
+        <!-- Menu Tickets -->
+        <menuitem
+                name="Tickets"
+                id="travel.menu_reporting_tickets"
+                parent="travel.menu_reporting"
+                action="travel.action_window_tickets"
+                sequence="7"
+        />
+
+        <!-- Menu Vehicles -->
+        <menuitem
+                name="Vehicles"
+                id="travel.menu_vehicles"
+                parent="travel.menu_root"
+                action="travel.action_window_vehicles"
+                sequence="8"
+        />
+
+        <!-- Menu Drivers -->
+        <menuitem
+                name="Drivers"
+                id="travel.menu_drivers"
+                parent="travel.menu_root"
+                action="travel.action_window_drivers"
+                sequence="9"
+        />
+
+        <!-- Menu Configuration -->
+        <menuitem
+                name="Configuration"
+                id="travel.menu_config"
+                parent="travel.menu_root"
+                sequence="10"
+        />
+
+        <!-- Menu Flights -->
+        <menuitem
+                name="Flights"
+                id="travel.menu_flights"
+                parent="travel.menu_config"
+                action="travel.action_window_flights"
+                sequence="12"
+        />
+
+        <!-- Menu Vehicles -->
+        <menuitem
+                name="Vehicles"
+                id="travel.menu_configuration_vehicles"
+                parent="travel.menu_config"
+                sequence="20"
+        />
+
+        <!-- Menu Types -->
+        <menuitem
+                name="Types"
+                id="travel.menu_types"
+                parent="travel.menu_configuration_vehicles"
+                action="travel.action_window_types"
+                sequence="21"
+        />
+
+        <!-- Menu Fuel types -->
+        <menuitem
+                name="Fuel Types"
+                id="travel.menu_fuel_types"
+                parent="travel.menu_configuration_vehicles"
+                action="travel.action_window_fuel_types"
+                sequence="22"
+        />
+
+        <!-- Menu Other -->
+        <menuitem
+                name="Other"
+                id="travel.menu_other"
+                parent="travel.menu_config"
+                sequence="30"
+        />
+
+        <!-- Menu Tags -->
+        <menuitem
+                name="Tags"
+                id="travel.menu_tags"
+                parent="travel.menu_other"
+                action="travel.action_window_tags"
+                sequence="31"
+        />
+
+        <!-- View List Travels -->
+        <record model="ir.ui.view" id="travel.travels_list_view">
+            <field name="name">Travels</field>
+            <field name="model">travel.travel</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="name"/>
+                    <field name="flight_id"/>
+                    <field name="create_uid" widget="many2one_avatar"/>
+                    <field name="first_driver_id"/>
+                    <field name="second_driver_id"/>
+                    <field name="vehicle_id"/>
+                    <field name="scheduled_start" optional="hide" widget="remaining_days"/>
+                    <field name="deadline_start" optional="show" widget="remaining_days"/>
+                    <field name="scheduled_end" optional="hide" widget="remaining_days"/>
+                    <field name="deadline_end" optional="show" widget="remaining_days"/>
+                    <field name="state"
+                           widget="badge"
+                           decoration-success="state == 'end'"
+                           decoration-muted="state == 'draft'"
+                           decoration-info="state == 'running'"
+                           decoration-primary="state == 'scheduled'"
+                           decoration-danger="state == 'cancel'"
+                    />
+                </list>
+
+            </field>
+        </record>
+        <record model="ir.ui.view" id="travel.travels_list_view">
+            <field name="name">Travels</field>
+            <field name="model">travel.travel</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="name"/>
+                    <field name="flight_id"/>
+                    <field name="create_uid" widget="many2one_avatar"/>
+                    <field name="first_driver_id"/>
+                    <field name="second_driver_id"/>
+                    <field name="vehicle_id"/>
+                    <field name="scheduled_start" optional="hide" widget="remaining_days"/>
+                    <field name="deadline_start" optional="show" widget="remaining_days"/>
+                    <field name="scheduled_end" optional="hide" widget="remaining_days"/>
+                    <field name="deadline_end" optional="show" widget="remaining_days"/>
+                    <field name="state"
+                           widget="badge"
+                           decoration-success="state == 'end'"
+                           decoration-muted="state == 'draft'"
+                           decoration-info="state == 'running'"
+                           decoration-primary="state == 'scheduled'"
+                           decoration-danger="state == 'cancel'"
+                    />
+                </list>
+
+            </field>
+        </record>
+
+        <!-- View Form Travel -->
+        <record model="ir.ui.view" id="travel.travel_form_view">
+            <field name="name">Travel</field>
+            <field name="model">travel.travel</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <header>
+
+                        <button
+                                string="Schedule"
+                                type="object"
+                                name="schedule_travel"
+                                class="btn-primary"
+                                invisible="state != 'draft'"
+                        />
+                        <button
+                                string="Launch"
+                                type="object"
+                                name="launch_travel"
+                                class="btn-primary"
+                                invisible="state != 'scheduled'"
+                        />
+                        <button
+                                string="Completed"
+                                type="object"
+                                name="travel_completed"
+                                class="btn-primary"
+                                invisible="state != 'running'"
+                        />
+                        <button
+                                string="Cancel"
+                                type="object"
+                                name="cancel_travel"
+                                class="btn-danger"
+                                invisible="state in ['draft', 'running', 'end', 'cancel']"
+                        />
+                        <field name="state" widget="statusbar" statusbar_visible="draft, scheduled, running, end"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="flight_id" readonly="state != 'draft'"/>
+                            </group>
+                            <group>
+                                <field name="scheduled_start" readonly="state != 'draft'"/>
+                            </group>
+                            <group>
+                                <field name="deadline_start" readonly="state != 'draft'"/>
+                            </group>
+                            <group>
+                                <field name="scheduled_end" readonly="state in ['running', 'end']"/>
+                            </group>
+                            <group>
+                                <field name="deadline_end" readonly="state == 'end'"/>
+                            </group>
+                            <group>
+                                <field name="first_driver_id" readonly="state in ['running', 'end']"/>
+                            </group>
+                            <group>
+                                <field
+                                        name="second_driver_id"
+                                        readonly="state in ['running', 'end']"
+                                        invisible="first_driver_id == False"
+                                />
+                            </group>
+                            <group>
+                                <field name="vehicle_id" readonly="state in ['running', 'end']"/>
+                            </group>
+
+                            <group>
+                                <field name="started_at" readonly="1" invisible="state in ['draft', 'scheduled']"/>
+                            </group>
+                            <group>
+                                <field name="ended_at" readonly="1" invisible="state != 'end'"
+                                       groups="travel.group_user"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Tickets">
+                                <field name="ticket_ids" mode="list" readonly="state in ['running', 'end']">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="passenger_id" widget="many2one"/>
+                                        <field name="seat_no"/>
+                                        <field name="price"/>
+                                    </list>
+                                    <form>
+                                        <group>
+                                            <field name="name"/>
+                                        </group>
+                                        <group>
+                                            <field name="passenger_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="seat_no"/>
+                                        </group>
+                                        <group>
+                                            <field name="price"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- View Search Travel -->
+        <record model="ir.ui.view" id="travel.travel_search_view">
+            <field name="name">Travel search</field>
+            <field name="model">travel.travel</field>
+            <field name="arch" type="xml">
+                <search string="Travel search">
+                    <field name="create_uid"/>
+                    <filter name="own_travels" string="My travels" domain="[('create_uid','=', uid)]"/>
+                    <filter name="running" string="Running travels" domain="[('state','=', 'running')]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- View List Passengers -->
+        <record model="ir.ui.view" id="travel.passengers_list_view">
+            <field name="name">Passengers</field>
+            <field name="model">travel.passenger</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="name"/>
+                    <field name="national_id"/>
+                    <field name="phone" widget="phone"/>
+                </list>
+
+            </field>
+        </record>
+
+        <!-- View Form Passenger -->
+        <record model="ir.ui.view" id="travel.passenger_form_view">
+            <field name="name">Passenger</field>
+            <field name="model">travel.passenger</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="national_id"/>
+                        </group>
+                        <group>
+                            <field name="phone" widget="phone"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- View List Tickets -->
+        <record model="ir.ui.view" id="travel.tickets_list_view">
+            <field name="name">Tickets</field>
+            <field name="model">travel.ticket</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="travel_id"/>
+                    <field name="travel_destination"/>
+                    <field name="travel_state"
+                           widget="badge"
+                           decoration-success="travel_state == 'end'"
+                           decoration-muted="travel_state == 'draft'"
+                           decoration-info="travel_state == 'running'"
+                           decoration-primary="travel_state == 'scheduled'"
+                           decoration-danger="travel_state == 'cancel'"
+                    />
+                    <field name="name"/>
+                    <field name="passenger_id"/>
+                    <field name="seat_no"/>
+                    <field name="price"/>
+                </list>
+
+            </field>
+        </record>
+
+        <!-- View List Vehicles -->
+        <record model="ir.ui.view" id="travel.vehicles_list_view">
+            <field name="name">Vehicles</field>
+            <field name="model">travel.vehicle</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="image" widget="image" options="{'size':[64,64]}" optional="hidden"/>
+                    <field name="manufacturer"/>
+                    <field name="model"/>
+                    <field name="color" widget="color"/>
+                    <field name="capacity"/>
+                    <field name="year" optional="hidden"/>
+                    <field name="type_id" optional="hidden"/>
+                    <field name="fuel_type_id" optional="hidden"/>
+                    <field name="tags" optional="hidden" widget="many2many_tags" options="{'color_field':'color'}"/>
+                    <field name="state"
+                           widget="badge"
+                           decoration-success="state == 'new'"
+                           decoration-info="state == 'used'"
+                           decoration-warning="state == 'damaged'"
+                           decoration-danger="state == 'broken'"
+                    />
+                </list>
+
+            </field>
+        </record>
+
+        <!-- View Form Vehicles -->
+        <record model="ir.ui.view" id="travel.vehicles_form_view">
+            <field name="name">Vehicle</field>
+            <field name="model">travel.vehicle</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <header>
+
+                        <button
+                                string="Repair"
+                                type="object"
+                                name="send_to_repair"
+                                invisible="state in ['repair', 'broken']"
+                                class="btn-primary"
+                                groups="travel.group_manager"
+                        />
+
+                        <button
+                                string="Repaired"
+                                type="object"
+                                name="successful_repair"
+                                invisible="state != 'repair'"
+                                class="btn-primary"
+                                groups="travel.group_manager"
+                        />
+
+                        <button
+                                string="Repair failed"
+                                type="object"
+                                name="failed_repair"
+                                invisible="state not in ['repair']"
+                                groups="travel.group_manager"
+                        />
+
+                        <field
+                                name="state"
+                                widget="statusbar"
+                                statusbar_visible="new, used"
+                                groups="travel.group_manager"
+                        />
+
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button text-success" icon="fa-check-square-o">
+                                <field string="Successful Repairs" name="successful_repairs_count" readonly="1"
+                                       widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" icon="oi-studio">
+                                <field string="Repairs" name="in_repair_count" readonly="1" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button text-danger" icon="fa-thumbs-o-down">
+                                <field string="Repairs failed" name="fail_repairs_count" readonly="1"
+                                       widget="statinfo"/>
+                            </button>
+                            <button
+                                    type="object"
+                                    name="related_travels"
+                                    class="oe_stat_button"
+                                    icon="fa-plane"
+                            >
+                                <field string="Travels" name="travels_count" widget="statinfo" />
+                            </button>
+                        </div>
+                        <group col="12">
+                            <group colspan="3">
+                                <field name="image" widget="image" nolabel="1" options="{'size': [250, 500]}"/>
+                            </group>
+                            <group colspan="9" col="12">
+                                <group colspan="12">
+                                    <field name="manufacturer"/>
+                                </group>
+                                <group colspan="12">
+                                    <field name="model"/>
+                                </group>
+                                <group colspan="12">
+                                    <field name="color" widget="color"/>
+                                </group>
+                                <group colspan="12">
+                                    <field name="year"/>
+                                </group>
+                                <group colspan="12">
+                                    <field name="capacity"/>
+                                </group>
+                                <group colspan="12">
+                                    <field name="type_id"/>
+                                </group>
+                                <group colspan="12">
+                                    <field name="fuel_type_id"/>
+                                </group>
+                                <group string="Tags" colspan="12">
+                                    <field name="tags" widget="many2many_tags" nolabel="1"
+                                           options="{'color_field': 'color'}"/>
+                                </group>
+                            </group>
+                            <separator/>
+                        </group>
+                        <notebook>
+                            <page string="Authorized drivers">
+                                <field name="drivers"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- View List Drivers -->
+        <record model="ir.ui.view" id="travel.drivers_list_view">
+            <field name="name">Drivers</field>
+            <field name="model">travel.vehicle.drivers</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="id" optional="hidden"/>
+                    <field name="image" widget="image" options="{'size':[40,40]}" optional="hidden"/>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="license_number"/>
+                    <field name="hire_date"/>
+                </list>
+
+            </field>
+        </record>
+
+        <!-- View Form Driver -->
+        <record model="ir.ui.view" id="travel.driver_form_view">
+            <field name="name">Driver</field>
+            <field name="model">travel.vehicle.drivers</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="name" string="Full name"/>
+                            <h1>
+                                <field name="name" colspan="1"/>
+                            </h1>
+                        </div>
+                        <separator/>
+                        <group col="2">
+                            <field name="email" string="Email" widget="email"/>
+                        </group>
+                        <group>
+                            <field name="license_number" string="License number"/>
+                        </group>
+                        <group>
+                            <field name="hire_date"/>
+                        </group>
+
+                        <!-- TODO
+                        <notebook>
+                            <page string="Vehicles">
+                                <field name="vehicles"/>
+                            </page>
+                        </notebook>
+                        -->
+
+                    </sheet>
+                    <chatter/>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- View List Flights -->
+        <record model="ir.ui.view" id="travel.flights_list_view">
+            <field name="name">Flights</field>
+            <field name="model">travel.flight</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="id" optional="hidden"/>
+                    <field name="name"/>
+                    <field name="destination"/>
+                    <field name="distance"/>
+                    <field name="cost"/>
+                </list>
+
+            </field>
+        </record>
+
+        <!-- View Form Flights -->
+        <record model="ir.ui.view" id="travel.flight_form_view">
+            <field name="name">Flight</field>
+            <field name="model">travel.flight</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="destination"/>
+                        </group>
+                        <group>
+                            <field name="distance"/>
+                        </group>
+                        <group>
+                            <field name="cost" widget="monetary"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- View List Types -->
+        <record model="ir.ui.view" id="travel.types_list_view">
+            <field name="name">Vehicles types</field>
+            <field name="model">travel.vehicle.types</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="id" optional="hidden"/>
+                    <field name="name"/>
+                    <field name="color" widget="color"/>
+                    <field name="description"/>
+                </list>
+
+            </field>
+        </record>
+
+        <!-- View Form Types -->
+        <record model="ir.ui.view" id="travel.types_form_view">
+            <field name="name">Type</field>
+            <field name="model">travel.vehicle.types</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                            <!-- TODO
+                            <button class="oe_stat_button text-success" icon="fa-check-square-o" type="action"
+                                    name="1050">
+                                <field string="Vehicles" name="vehicles_count" readonly="1" widget="statinfo"/>
+                            </button>
+                            -->
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="color" widget="color"/>
+                            </group>
+
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- View List Fuel Types -->
+        <record model="ir.ui.view" id="travel.fuel_types_list_view">
+            <field name="name">Vehicles fuel types</field>
+            <field name="model">travel.vehicle.fuel.types</field>
+            <field name="arch" type="xml">
+
+                <list>
+                    <field name="id" optional="hidden"/>
+                    <field name="name"/>
+                    <field name="color" widget="color"/>
+                    <field name="description"/>
+                </list>
+
+            </field>
+        </record>
+
+        <!-- View Form Fuel Types -->
+        <record model="ir.ui.view" id="travel.fuel_types_form_view">
+            <field name="name">Fuel type</field>
+            <field name="model">travel.vehicle.fuel.types</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="color" widget="color"/>
+                            </group>
+
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- View List Tags -->
+        <record model="ir.ui.view" id="travel.tags_list_view">
+            <field name="name">Vehicles tags</field>
+            <field name="model">travel.vehicle.tags</field>
+            <field name="arch" type="xml">
+
+                <list editable="bottom">
+                    <field name="name"/>
+                    <field name="color" widget="color_picker"/>
+                </list>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+
+        <!-- Action Report for QWEB learning -->
+        <record model="ir.actions.report" id="qweb_training_action_report">
+            <field name="name">QWEB Sample</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="model">travel.travel</field>
+            <field name="report_name">travel.qweb_training_view</field>
+        </record>
+
+    </data>
+</odoo>

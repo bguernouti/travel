@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+
+        <record model="travel.vehicle.types" id="travel.types_data_van">
+            <field name="name">Van</field>
+            <field name="color">#FF0000</field>
+            <field name="description">Medium-sized vehicle suitable for urban and suburban deliveries.</field>
+        </record>
+
+        <record model="travel.vehicle.types" id="travel.types_data_truck">
+            <field name="name">Truck</field>
+            <field name="color">#008000</field>
+            <field name="description">Heavy-duty vehicle used for large shipments and long distances.</field>
+        </record>
+
+        <record model="travel.vehicle.types" id="travel.types_data_pickup">
+            <field name="name">Pickup</field>
+            <field name="color">#0000FF</field>
+            <field name="description">Compact vehicle suitable for rural areas and light loads.</field>
+        </record>
+
+        <record model="travel.vehicle.types" id="travel.types_data_motorbike">
+            <field name="name">Motorbike</field>
+            <field name="color">#FFFF00</field>
+            <field name="description">Two-wheeled vehicle for quick deliveries in urban areas.</field>
+        </record>
+
+        <record model="travel.vehicle.types" id="travel.types_data_bicycle">
+            <field name="name">Bicycle</field>
+            <field name="color">#FFA500</field>
+            <field name="description">Eco-friendly option for short distances and urban areas.</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,187 @@
+<odoo>
+    <data>
+
+        <!--
+        Minimal code in order to QWEB works...
+
+        <template id="....">
+            <t t-call="web.html_container">
+                ANY HTML OR QWEB
+            </t>
+        </template>
+        -->
+        <template id="qweb_training_view">
+            <!-- QWEB BEGINS -->
+            <t t-call="web.html_container">
+                <t t-set="currency" t-value="res_company.currency_id"/>
+                <t t-foreach="docs" t-as="travel">
+                    <t t-call="web.external_layout">
+                        <t t-set="address">
+                            <div>
+                                <strong>Flight No :</strong>
+                                <span t-field="travel.flight_id"/>
+                            </div>
+                            <div>
+                                <strong>Destination :</strong>
+                                <span t-field="travel.flight_id.destination"/>
+                            </div>
+                            <div>
+                                <strong>First driver :</strong>
+                                <span t-field="travel.first_driver_id"/>
+                            </div>
+                            <div>
+                                <strong>Second driver :</strong>
+                                <span t-field="travel.second_driver_id"/>
+                            </div>
+                            <div>
+                                <strong>Vehicle :</strong>
+                                <span t-field="travel.vehicle_id"/>
+                            </div>
+                        </t>
+                        <div class="page">
+                            <t t-set="layout_document_title">
+                                <span t-field="travel.name"/>
+                            </t>
+                            <div class="row mb-4" id="informations">
+                                <div class="col">
+                                    <strong>Scheduled start</strong>
+                                    <div t-field="travel.scheduled_start"/>
+                                </div>
+                                <div class="col">
+                                    <strong>Deadline start</strong>
+                                    <div t-field="travel.deadline_start"/>
+                                </div>
+                                <t t-if="travel.started_at">
+                                    <div class="col">
+                                        <strong>Started at</strong>
+                                        <div t-field="travel.started_at" t-options="{'widget': 'date'}"/>
+                                    </div>
+                                </t>
+                                <div class="col">
+                                    <strong>Scheduled end</strong>
+                                    <div t-field="travel.scheduled_end"/>
+                                </div>
+                                <div class="col">
+                                    <strong>Deadline end</strong>
+                                    <div t-field="travel.deadline_end"/>
+                                </div>
+                                <t t-if="travel.ended_at">
+                                    <div class="col">
+                                        <strong>Ended at</strong>
+                                        <div t-field="travel.ended_at" t-options="{'widget': 'date'}"/>
+                                    </div>
+                                </t>
+                            </div>
+                            <table class="o_has_total_table table o_main_table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Ticket N.
+                                        </th>
+                                        <th>
+                                            Passenger
+                                        </th>
+                                        <th>
+                                            Seat No.
+                                        </th>
+                                        <th>
+                                            Price
+                                        </th>
+                                        <th>
+                                            Tax 15%
+                                        </th>
+                                        <th>
+                                            Total
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <t t-set="total_untaxed" t-value="0"/>
+                                    <t t-set="tax_amount_total" t-value="0"/>
+
+                                    <t t-foreach="travel.ticket_ids" t-as="ticket">
+
+                                        <!-- Computing line values -->
+                                        <t t-set="tax_amount" t-value="ticket.price * 0.15"/>
+                                        <t t-set="line_total" t-value="tax_amount + ticket.price"/>
+
+                                        <!-- Computing global values -->
+                                        <t t-set="total_untaxed" t-value="total_untaxed + ticket.price"/>
+                                        <t t-set="tax_amount_total" t-value="tax_amount_total + tax_amount"/>
+
+                                        <tr>
+                                            <td>
+                                                <span t-field="ticket.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="ticket.passenger_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="ticket.seat_no"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="ticket.price"
+                                                      t-options="{'widget':'monetary', 'display_currency': currency}"/>
+                                            </td>
+                                            <td>
+                                                <span t-out="tax_amount"
+                                                      t-options="{'widget':'monetary', 'display_currency': currency}"/>
+                                            </td>
+                                            <td>
+                                                <span t-out="line_total"
+                                                      t-options="{'widget':'monetary', 'display_currency': currency}"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div class="clearfix" name="so_total_summary">
+                                <div id="total" class="row mt-n3" name="total">
+                                    <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                                        <table class="o_has_total_table table table-borderless">
+
+                                            <tr class="o_subtotal">
+                                                <td>
+                                                    <span>Untaxed Amount</span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span
+                                                            t-att-class="oe_subtotal_footer_separator"
+                                                            t-out="total_untaxed"
+                                                            t-options="{'widget':'monetary', 'display_currency': currency}"
+                                                    />
+                                                </td>
+                                            </tr>
+
+                                            <tr class="o_taxes">
+                                                <td>
+                                                    <span>Tax 15%</span>
+                                                </td>
+                                                <td class="text-end o_price_total">
+                                                    <span t-out="tax_amount_total"
+                                                          t-options="{'widget':'monetary', 'display_currency': currency}"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="o_total">
+                                                <td>
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td class="text-end">
+                                                    <strong t-out="total_untaxed + tax_amount_total"
+                                                            t-options="{'widget':'monetary', 'display_currency': currency}"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
